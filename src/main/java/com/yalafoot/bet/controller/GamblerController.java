@@ -14,7 +14,7 @@ public class GamblerController {
 
     @GetMapping("/test")
     public String getTest(){
-        return "yala ma gueule !";
+        return "yala mon gambler !";
     }
 
     @CrossOrigin
@@ -24,7 +24,7 @@ public class GamblerController {
     }
 
     @PostMapping("/add")
-    public void updateGambler(@RequestBody Gambler gambler){
+    public void addGambler(@RequestBody Gambler gambler){
         gamblerService.save(gambler);
     }
 }

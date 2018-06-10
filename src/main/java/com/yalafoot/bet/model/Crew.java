@@ -1,9 +1,12 @@
 package com.yalafoot.bet.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -15,15 +18,43 @@ public class Crew {
     private int id;
 
     @Column
-    @NotNull
+//    @GeneratedValue(generator = "uuid")
+//    @GenericGenerator(name = "uuid", strategy = "uuid2")
     private int uid;
 
     @Column
-    @NotNull
-    private int admin;
-
-    @Column
     private String name;
+
+    @ManyToOne
+    @JsonBackReference
+    @JoinColumn(name = "admin")
+    private Gambler admin;
+
+    @ManyToMany
+    @JoinTable(name = "crewjoin",
+            joinColumns = @JoinColumn(name = "crew_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "gambler_id", referencedColumnName = "id"))
+    private Set<Gambler> gamblers;
+
+    public void addGamblers(Set<Gambler> gamblers){
+        this.gamblers.addAll(gamblers);
+    }
+
+    public Gambler getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Gambler admin) {
+        this.admin = admin;
+    }
+
+    public Set<Gambler> getGamblers() {
+        return gamblers;
+    }
+
+    public void setGamblers(Set<Gambler> gamblers) {
+        this.gamblers = gamblers;
+    }
 
     public int getId() {
         return id;
@@ -39,14 +70,6 @@ public class Crew {
 
     public void setUid(int uid) {
         this.uid = uid;
-    }
-
-    public int getAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(int admin) {
-        this.admin = admin;
     }
 
     public String getName() {

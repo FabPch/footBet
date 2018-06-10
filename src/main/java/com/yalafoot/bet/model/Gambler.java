@@ -1,9 +1,10 @@
 package com.yalafoot.bet.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -28,6 +29,57 @@ public class Gambler {
 
     @Column
     private byte[] photo;
+
+    @OneToMany(mappedBy = "admin", fetch=FetchType.EAGER)
+    @JsonIgnore
+//    @JsonManagedReference(value = "adminCrews")
+    private Set<Crew> adminCrews;
+
+    @OneToMany(mappedBy = "gambler", fetch=FetchType.EAGER)
+    @JsonIgnore
+//    @JsonManagedReference(value = "pronostics")
+    private Set<Pronostic> pronostics;
+
+    @OneToMany(mappedBy = "gambler")
+    @JsonIgnore
+//    @JsonManagedReference(value = "results")
+    private Set<Result> results;
+
+    @ManyToMany(mappedBy = "gamblers")
+    @JsonIgnore
+    private Set<Crew> crews;
+
+    public Set<Crew> getAdminCrews() {
+        return adminCrews;
+    }
+
+    public void setAdminCrews(Set<Crew> adminCrews) {
+        this.adminCrews = adminCrews;
+    }
+
+    public Set<Crew> getCrews() {
+        return crews;
+    }
+
+    public void setCrews(Set<Crew> crews) {
+        this.crews = crews;
+    }
+
+    public Set<Result> getResults() {
+        return results;
+    }
+
+    public void setResults(Set<Result> results) {
+        this.results = results;
+    }
+
+    public Set<Pronostic> getPronostics() {
+        return pronostics;
+    }
+
+    public void setPronostics(Set<Pronostic> pronostics) {
+        this.pronostics = pronostics;
+    }
 
     public int getId() {
         return id;

@@ -21,4 +21,4 @@ create table pronostic (id serial primary key, game_id int not null references g
 
 create table score (id serial primary key, game_id int not null references game(id), res_team_1 int not null, res_team_2 int not null);
 
-create table result (id serial primary key, gambler int not null references gambler(id), pronostic_id int not null references pronostic(id), point int not null);
+create table result (id serial primary key, gambler_id int not null references gambler(id), pronostic_id int not null references pronostic(id), point int not null);

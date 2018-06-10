@@ -14,9 +14,10 @@ public class Score {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "game_id")
+    @ManyToOne
+    @JoinColumn(name = "game_id")
     @NotNull
-    private int gameId;
+    private Game game;
 
     @Column(name = "res_team_1")
     @NotNull
@@ -34,14 +35,6 @@ public class Score {
         this.id = id;
     }
 
-    public int getGameId() {
-        return gameId;
-    }
-
-    public void setGameId(int gameId) {
-        this.gameId = gameId;
-    }
-
     public int getResTeam1() {
         return resTeam1;
     }
@@ -56,5 +49,13 @@ public class Score {
 
     public void setResTeam2(int resTeam2) {
         this.resTeam2 = resTeam2;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
     }
 }

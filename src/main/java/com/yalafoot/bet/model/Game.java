@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
+import java.util.Set;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -15,16 +16,24 @@ public class Game {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "team_1")
+    @ManyToOne
+    @JoinColumn(name = "team_1")
     @NotNull
-    private int team1;
+    private Team team1;
 
-    @Column(name = "team_2")
+    @ManyToOne
+    @JoinColumn(name = "team_2")
     @NotNull
-    private int team2;
+    private Team team2;
 
     @Column
     private Date date;
+
+    @OneToMany(mappedBy = "game")
+    private Set<Score> scores;
+
+    @OneToMany(mappedBy = "game")
+    private Set<Pronostic> pronostics;
 
     public int getId() {
         return id;
@@ -34,27 +43,43 @@ public class Game {
         this.id = id;
     }
 
-    public int getTeam1() {
-        return team1;
-    }
-
-    public void setTeam1(int team1) {
-        this.team1 = team1;
-    }
-
-    public int getTeam2() {
-        return team2;
-    }
-
-    public void setTeam2(int team2) {
-        this.team2 = team2;
-    }
-
     public Date getDate() {
         return date;
     }
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Team getTeam1() {
+        return team1;
+    }
+
+    public void setTeam1(Team team1) {
+        this.team1 = team1;
+    }
+
+    public Team getTeam2() {
+        return team2;
+    }
+
+    public void setTeam2(Team team2) {
+        this.team2 = team2;
+    }
+
+    public Set<Score> getScores() {
+        return scores;
+    }
+
+    public void setScores(Set<Score> scores) {
+        this.scores = scores;
+    }
+
+    public Set<Pronostic> getPronostics() {
+        return pronostics;
+    }
+
+    public void setPronostics(Set<Pronostic> pronostics) {
+        this.pronostics = pronostics;
     }
 }
