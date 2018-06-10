@@ -1,17 +1,24 @@
-drop table if exists gambler;
+drop table if exists gambler cascade;
+drop table if exists team cascade;
+drop table if exists crew cascade;
+drop table if exists crewjoin cascade;
+drop table if exists game cascade;
+drop table if exists pronostic cascade;
+drop table if exists score cascade;
+drop table if exists result cascade;
+
 create table gambler (id serial primary key, name varchar(255) not null, login varchar(255) not null, password varchar(255) not null, photo bytea);
 
-drop table if exists team;
 create table team (id serial primary key, name varchar(255) not null);
 
-drop table if exists game;
+create table crew (id serial primary key, admin int not null references gambler(id), name varchar(255), uid int not null);
+
+create table crewjoin (id serial primary key, gambler_id int not null references gambler(id), crew_id int not null references crew(id));
+
 create table game (id serial primary key, team_1 int not null references team(id), team_2 int not null references team(id), date date);
 
-drop table if exists pronostic;
-create table pronostic (id serial primary key, match_id int references game(id), res_team_1 int not null, res_team_2 int not null);
+create table pronostic (id serial primary key, game_id int not null references game(id), res_team_1 int not null, res_team_2 int not null, gambler_id int not null references gambler(id));
 
-drop table if exists score;
-create table score (id serial primary key, match_id int references game(id), res_team_1 int not null, res_team_2 int not null);
+create table score (id serial primary key, game_id int not null references game(id), res_team_1 int not null, res_team_2 int not null);
 
-drop table if exists result;
 create table result (id serial primary key, gambler int not null references gambler(id), pronostic_id int not null references pronostic(id), point int not null);

@@ -17,17 +17,14 @@ public class GamblerController {
         return "yala ma gueule !";
     }
 
-    @GetMapping("/{id}")
+    @CrossOrigin
+    @GetMapping("{id}")
     public Gambler getGamblerById(@PathVariable Integer id){
         return gamblerService.getOne(id);
     }
 
-    @PutMapping("/update")
-    public void updateGambler(@RequestParam String name, String login, String password, byte[] photo){
-        Gambler gambler = new Gambler();
-        gambler.setName(name);
-        gambler.setLogin(login);
-        gambler.setPassword(password);
+    @PostMapping("/add")
+    public void updateGambler(@RequestBody Gambler gambler){
         gamblerService.save(gambler);
     }
 }
