@@ -1,5 +1,6 @@
 package com.yalafoot.bet.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -20,9 +21,11 @@ public class Team {
     private String name;
 
     @OneToMany(mappedBy = "team1")
+    @JsonIgnore
     private Set<Game> games1;
 
     @OneToMany(mappedBy = "team2")
+    @JsonIgnore
     private Set<Game> games2;
 
     public Set<Game> getGames1() {
