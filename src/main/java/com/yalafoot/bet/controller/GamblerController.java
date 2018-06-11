@@ -27,4 +27,6 @@ public class GamblerController {
     public void addGambler(@RequestBody Gambler gambler){
         gamblerService.save(gambler);
     }
+
+
 }
