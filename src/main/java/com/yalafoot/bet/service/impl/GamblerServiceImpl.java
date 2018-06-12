@@ -3,6 +3,7 @@ package com.yalafoot.bet.service.impl;
 import com.yalafoot.bet.model.Gambler;
 import com.yalafoot.bet.repository.GamblerRepository;
 import com.yalafoot.bet.service.GamblerService;
+import org.bouncycastle.util.encoders.Hex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +37,8 @@ public class GamblerServiceImpl implements GamblerService {
         }
         String pwd = gambler.getPassword();
         byte[] passwordHashed = digest.digest(pwd.getBytes(StandardCharsets.UTF_8));
-        gambler.setPassword(passwordHashed.toString());
+        String passwordStringHashed = new String(Hex.encode(passwordHashed));
+        gambler.setPassword(passwordStringHashed);
         gamblerRepository.save(gambler);
     }
 
