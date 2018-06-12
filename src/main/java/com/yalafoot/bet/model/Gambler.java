@@ -31,16 +31,16 @@ public class Gambler {
     @Column
     private byte[] photo;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    List<Role> roles;
-
-    public List<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
+//    @ElementCollection(fetch = FetchType.EAGER)
+//    List<Role> roles;
+//
+//    public List<Role> getRoles() {
+//        return roles;
+//    }
+//
+//    public void setRoles(List<Role> roles) {
+//        this.roles = roles;
+//    }
 
     @OneToMany(mappedBy = "admin", fetch=FetchType.EAGER)
     @JsonIgnore
