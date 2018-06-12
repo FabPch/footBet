@@ -6,6 +6,10 @@ import com.yalafoot.bet.service.GamblerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 @Service
 public class GamblerServiceImpl implements GamblerService {
 
@@ -24,6 +28,15 @@ public class GamblerServiceImpl implements GamblerService {
 
     @Override
     public void save(Gambler gambler) {
+        MessageDigest digest = null;
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        String pwd = gambler.getPassword();
+        byte[] passwordHashed = digest.digest(pwd.getBytes(StandardCharsets.UTF_8));
+        gambler.setPassword(passwordHashed.toString());
         gamblerRepository.save(gambler);
     }
 
