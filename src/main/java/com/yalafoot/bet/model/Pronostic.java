@@ -21,17 +21,17 @@ public class Pronostic {
 
     @ManyToOne
     @JoinColumn(name = "game_id")
-    @JsonBackReference
+//    @JsonBackReference
     private Game game;
 
     @ManyToOne
     @JoinColumn(name = "team_id")
-    @JsonBackReference
+//    @JsonBackReference
     private Team team;
 
     @ManyToOne
     @JoinColumn(name = "gambler_id")
-    @JsonBackReference
+//    @JsonBackReference
     private Gambler gambler;
 
     public int getId() {

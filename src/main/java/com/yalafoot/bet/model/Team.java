@@ -23,10 +23,13 @@ public class Team {
     @OneToMany(mappedBy = "team")
     @JsonIgnore
     private Set<Pronostic> pronostics;
+
     @OneToMany(mappedBy = "team1")
+    @JsonIgnore
     private Set<Game> games1;
 
     @OneToMany(mappedBy = "team2")
+    @JsonIgnore
     private Set<Game> games2;
 
     public Set<Game> getGames1() {

@@ -1,10 +1,11 @@
 package com.yalafoot.bet.controller;
 
+import com.yalafoot.bet.dto.PronoDTO;
+import com.yalafoot.bet.dto.TeamDTO;
+import com.yalafoot.bet.model.Pronostic;
 import com.yalafoot.bet.service.PronosticService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/pronostic")
 @RestController
@@ -16,5 +17,25 @@ public class PronosticController {
     @GetMapping("/test")
     public String getTest(){
         return "yala mon prono !";
+    }
+
+    @CrossOrigin
+    @GetMapping("{id}")
+    public PronoDTO getPronosticById(@PathVariable Integer id){
+        Pronostic pronostic= pronosticService.getOne(id);
+        TeamDTO team1 = new TeamDTO();
+        TeamDTO team2 = new TeamDTO();
+        team1.setRes(pronostic.getProno());
+        PronoDTO pronoDTO = new PronoDTO();
+        pronoDTO.setId(pronostic.getId());
+        pronoDTO.setGameId(pronostic.getGame().getId());
+        pronoDTO.setTeam1(team1);
+        pronoDTO.setTeam2(team2);
+        return pronoDTO;
+    }
+
+    @PostMapping("/add")
+    public void addPronostic(@RequestBody Pronostic pronostic){
+        pronosticService.save(pronostic);
     }
 }
