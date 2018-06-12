@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -29,6 +30,17 @@ public class Gambler {
 
     @Column
     private byte[] photo;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    List<Role> roles;
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
 
     @OneToMany(mappedBy = "admin", fetch=FetchType.EAGER)
     @JsonIgnore

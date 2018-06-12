@@ -1,9 +1,11 @@
 package com.yalafoot.bet.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -16,16 +18,42 @@ public class Score {
 
     @ManyToOne
     @JoinColumn(name = "game_id")
-    @NotNull
     private Game game;
 
-    @Column(name = "res_team_1")
-    @NotNull
-    private int resTeam1;
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    private Team team;
 
-    @Column(name = "res_team_2")
-    @NotNull
-    private int resTeam2;
+    @Column
+    private int res;
+
+    @OneToMany
+    @JsonIgnore
+    private Set<Pronostic> pronostics;
+
+    public Set<Pronostic> getPronostics() {
+        return pronostics;
+    }
+
+    public void setPronostics(Set<Pronostic> pronostics) {
+        this.pronostics = pronostics;
+    }
+
+    public int getRes() {
+        return res;
+    }
+
+    public void setRes(int res) {
+        this.res = res;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
 
     public int getId() {
         return id;
@@ -33,22 +61,6 @@ public class Score {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getResTeam1() {
-        return resTeam1;
-    }
-
-    public void setResTeam1(int resTeam1) {
-        this.resTeam1 = resTeam1;
-    }
-
-    public int getResTeam2() {
-        return resTeam2;
-    }
-
-    public void setResTeam2(int resTeam2) {
-        this.resTeam2 = resTeam2;
     }
 
     public Game getGame() {

@@ -17,8 +17,8 @@ create table crewjoin (id serial primary key, gambler_id int not null references
 
 create table game (id serial primary key, team_1 int not null references team(id), team_2 int not null references team(id), date date);
 
-create table pronostic (id serial primary key, game_id int not null references game(id), res_team_1 int not null, res_team_2 int not null, gambler_id int not null references gambler(id));
+create table pronostic (id serial primary key, prono int not null, game_id int not null references game(id), team_id int not null references team(id), gambler_id int not null references gambler(id));
 
-create table score (id serial primary key, game_id int not null references game(id), res_team_1 int not null, res_team_2 int not null);
+create table score (id serial primary key, game_id int not null references game(id), team_id int not null references team(id), res int not null);
 
 create table result (id serial primary key, gambler_id int not null references gambler(id), pronostic_id int not null references pronostic(id), point int not null);

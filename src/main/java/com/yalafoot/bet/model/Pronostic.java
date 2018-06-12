@@ -15,19 +15,19 @@ public class Pronostic {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column
+    @NotNull
+    private int prono;
+
     @ManyToOne
     @JoinColumn(name = "game_id")
-    @NotNull
     @JsonBackReference
     private Game game;
 
-    @Column(name = "res_team_1")
-    @NotNull
-    private int resTeam1;
-
-    @Column(name = "res_team_2")
-    @NotNull
-    private int resTeam2;
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    @JsonBackReference
+    private Team team;
 
     @ManyToOne
     @JoinColumn(name = "gambler_id")
@@ -40,22 +40,6 @@ public class Pronostic {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getResTeam1() {
-        return resTeam1;
-    }
-
-    public void setResTeam1(int resTeam1) {
-        this.resTeam1 = resTeam1;
-    }
-
-    public int getResTeam2() {
-        return resTeam2;
-    }
-
-    public void setResTeam2(int resTeam2) {
-        this.resTeam2 = resTeam2;
     }
 
     public Game getGame() {
@@ -72,5 +56,21 @@ public class Pronostic {
 
     public void setGambler(Gambler gambler) {
         this.gambler = gambler;
+    }
+
+    public int getProno() {
+        return prono;
+    }
+
+    public void setProno(int prono) {
+        this.prono = prono;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
     }
 }
