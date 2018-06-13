@@ -20,7 +20,7 @@ public class Crew {
     @Column
 //    @GeneratedValue(generator = "uuid")
 //    @GenericGenerator(name = "uuid", strategy = "uuid2")
-    private int uid;
+    private String uid;
 
     @Column
     private String name;
@@ -64,11 +64,11 @@ public class Crew {
         this.id = id;
     }
 
-    public int getUid() {
+    public String getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(String uid) {
         this.uid = uid;
     }
 

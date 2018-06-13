@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.UUID;
 
 public class AppUtils {
 
@@ -40,5 +41,9 @@ public class AppUtils {
             throw new CustomException("Access denied", HttpStatus.FORBIDDEN);
         }
         return passHashed;
+    }
+
+    public static String getUuid() {
+        return UUID.randomUUID().toString().replace("-", "");
     }
 }
