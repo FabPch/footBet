@@ -1,10 +1,13 @@
 package com.yalafoot.bet.service.impl;
 
+import com.yalafoot.bet.exception.CustomException;
 import com.yalafoot.bet.model.Gambler;
 import com.yalafoot.bet.repository.GamblerRepository;
 import com.yalafoot.bet.service.GamblerService;
+import com.yalafoot.bet.utils.AppUtils;
 import org.bouncycastle.util.encoders.Hex;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
@@ -29,17 +32,14 @@ public class GamblerServiceImpl implements GamblerService {
 
     @Override
     public void save(Gambler gambler) {
-        MessageDigest digest = null;
-        try {
-            digest = MessageDigest.getInstance("SHA-256");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
         String pwd = gambler.getPassword();
-        byte[] passwordHashed = digest.digest(pwd.getBytes(StandardCharsets.UTF_8));
-        String passwordStringHashed = new String(Hex.encode(passwordHashed));
-        gambler.setPassword(passwordStringHashed);
-        gamblerRepository.save(gambler);
+        String passwordStringHashed = AppUtils.getPassHashed(pwd);
+        if (passwordStringHashed != null && !passwordStringHashed.isEmpty()){
+            gambler.setPassword(passwordStringHashed);
+            gamblerRepository.save(gambler);
+        } else {
+            throw new CustomException("Access denied", HttpStatus.FORBIDDEN);
+        }
     }
 
     @Override
