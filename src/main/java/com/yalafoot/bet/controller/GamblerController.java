@@ -17,13 +17,12 @@ public class GamblerController {
         return "yala mon gambler !";
     }
 
-    @CrossOrigin
     @GetMapping("{id}")
     public Gambler getGamblerById(@PathVariable Integer id){
         return gamblerService.getOne(id);
     }
 
-    @PostMapping("/add")
+    @PostMapping()
     public void addGambler(@RequestBody Gambler gambler){
         gamblerService.save(gambler);
     }
