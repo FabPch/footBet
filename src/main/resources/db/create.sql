@@ -7,7 +7,7 @@ drop table if exists pronostic cascade;
 drop table if exists score cascade;
 drop table if exists result cascade;
 
-create table gambler (id serial primary key, name varchar(255) not null, login varchar(255) not null, password varchar(255) not null, photo bytea);
+create table gambler (id serial primary key, name varchar(255) not null, login varchar(255) not null unique, password varchar(255) not null, photo bytea);
 
 create table team (id serial primary key, name varchar(255) not null);
 
