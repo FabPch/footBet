@@ -20,10 +20,6 @@ public class Team {
     @NotNull
     private String name;
 
-    @OneToMany(mappedBy = "team")
-    @JsonIgnore
-    private Set<Pronostic> pronostics;
-
     @OneToMany(mappedBy = "team1")
     @JsonIgnore
     private Set<Game> games1;
@@ -64,11 +60,4 @@ public class Team {
         this.name = name;
     }
 
-    public Set<Pronostic> getPronostics() {
-        return pronostics;
-    }
-
-    public void setPronostics(Set<Pronostic> pronostics) {
-        this.pronostics = pronostics;
-    }
 }

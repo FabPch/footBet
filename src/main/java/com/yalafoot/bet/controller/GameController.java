@@ -23,7 +23,7 @@ public class GameController {
                 return gameService.getOne(id);
            }
 
-    @PostMapping("/add")
+    @PostMapping()
     public void addGame(@RequestBody Game game){
                 gameService.save(game);
             }

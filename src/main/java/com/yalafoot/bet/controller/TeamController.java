@@ -24,7 +24,7 @@ public class TeamController {
         return teamService.getOne(id);
     }
 
-    @PostMapping("/add")
+    @PostMapping()
     public void addTeam(@RequestBody Team team){
         teamService.save(team);
     }
