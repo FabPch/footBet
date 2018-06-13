@@ -25,7 +25,8 @@ public class PronosticController {
         Pronostic pronostic= pronosticService.getOne(id);
         TeamDTO team1 = new TeamDTO();
         TeamDTO team2 = new TeamDTO();
-        team1.setRes(pronostic.getProno());
+        team1.setRes(pronostic.getProno1());
+        team2.setRes(pronostic.getProno2());
         PronoDTO pronoDTO = new PronoDTO();
         pronoDTO.setId(pronostic.getId());
         pronoDTO.setGameId(pronostic.getGame().getId());
@@ -34,7 +35,7 @@ public class PronosticController {
         return pronoDTO;
     }
 
-    @PostMapping("/add")
+    @PostMapping()
     public void addPronostic(@RequestBody Pronostic pronostic){
         pronosticService.save(pronostic);
     }

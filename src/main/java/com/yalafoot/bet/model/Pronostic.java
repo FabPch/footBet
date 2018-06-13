@@ -17,17 +17,16 @@ public class Pronostic {
 
     @Column
     @NotNull
-    private int prono;
+    private int prono1;
+
+    @Column
+    @NotNull
+    private int prono2;
 
     @ManyToOne
     @JoinColumn(name = "game_id")
 //    @JsonBackReference
     private Game game;
-
-    @ManyToOne
-    @JoinColumn(name = "team_id")
-//    @JsonBackReference
-    private Team team;
 
     @ManyToOne
     @JoinColumn(name = "gambler_id")
@@ -58,19 +57,20 @@ public class Pronostic {
         this.gambler = gambler;
     }
 
-    public int getProno() {
-        return prono;
+    public int getProno1() {
+        return prono1;
     }
 
-    public void setProno(int prono) {
-        this.prono = prono;
+    public void setProno1(int prono1) {
+        this.prono1 = prono1;
     }
 
-    public Team getTeam() {
-        return team;
+    public int getProno2() {
+        return prono2;
     }
 
-    public void setTeam(Team team) {
-        this.team = team;
+    public void setProno2(int prono2) {
+        this.prono2 = prono2;
     }
+
 }
