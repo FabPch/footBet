@@ -1,11 +1,11 @@
 package com.yalafoot.bet.controller;
 
 import com.yalafoot.bet.constants.AppConstants;
+import com.yalafoot.bet.dto.AuthDTO;
 import com.yalafoot.bet.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -18,11 +18,11 @@ public class AuthenticationController {
     @Autowired
     AuthenticationService authenticationService;
 
-    @GetMapping("/login")
-    public HttpServletResponse authenticate(HttpServletResponse response, String login, String pass){
-        String token = authenticationService.authenticate(login, pass);
+    @PostMapping("/login")
+    public String authenticate(HttpServletResponse response, @RequestBody AuthDTO authDTO){
+        String token = authenticationService.authenticate(authDTO.getLogin(), authDTO.getPassword());
         Cookie cookie = new Cookie(AppConstants.STALINGRAD, token);
         response.addCookie(cookie);
-        return response;
+        return "yo";
     }
 }

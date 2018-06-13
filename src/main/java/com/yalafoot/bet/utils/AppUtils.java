@@ -17,11 +17,15 @@ public class AppUtils {
     public static String getCookie(HttpServletRequest request, String name){
         Cookie[] cookies = request.getCookies();
         String cookieValue = null;
-        for (Cookie c : cookies){
-            if (c.getName().equalsIgnoreCase(name) && c.getValue() != null){
-                cookieValue = c.getValue();
-                break;
+        if (cookies != null){
+            for (Cookie c : cookies){
+                if (c.getName().equalsIgnoreCase(name) && c.getValue() != null){
+                    cookieValue = c.getValue();
+                    break;
+                }
             }
+        } else {
+            throw new CustomException("Access denied", HttpStatus.FORBIDDEN);
         }
         return cookieValue;
     }
