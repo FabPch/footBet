@@ -18,11 +18,16 @@ public class AuthenticationController {
     @Autowired
     AuthenticationService authenticationService;
 
-    @PostMapping("/login")
-    public String authenticate(HttpServletResponse response, @RequestBody AuthDTO authDTO){
+    @PostMapping()
+    public void authenticate(HttpServletResponse response, @RequestBody AuthDTO authDTO) {
         String token = authenticationService.authenticate(authDTO.getLogin(), authDTO.getPassword());
         Cookie cookie = new Cookie(AppConstants.STALINGRAD, token);
+        cookie.setHttpOnly(true);
         response.addCookie(cookie);
-        return "yo";
     }
+
+//    @GetMapping()
+//    public void getSession(HttpServletResponse response) {
+//        String token = authenticationService.getSession();
+//    }
 }

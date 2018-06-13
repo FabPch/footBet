@@ -22,7 +22,7 @@ public class GamblerController {
         return gamblerService.getOne(id);
     }
 
-    @PostMapping("/add")
+    @PostMapping()
     public void addGambler(@RequestBody Gambler gambler){
         gamblerService.save(gambler);
     }

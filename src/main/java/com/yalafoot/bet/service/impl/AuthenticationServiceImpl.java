@@ -29,10 +29,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         Gambler gambler = gamblerRepository.findByLogin(login);
         String passHash = AppUtils.getPassHashed(pass);
         if (passHash.equalsIgnoreCase(gambler.getPassword())){
-            return AppUtils.getUuid();
-//            return JwtTokenProvider.createToken(login, gambler.getId());
+            //return AppUtils.getUuid();
+            return JwtTokenProvider.createToken(login, gambler.getId());
         } else {
             throw new CustomException("Access denied", HttpStatus.FORBIDDEN);
         }
     }
+
+    //public void getSession()
 }
