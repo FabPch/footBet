@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Set;
 
 @Entity
@@ -28,7 +29,7 @@ public class Game {
     private Team team2;
 
     @Column
-    private Date date;
+    private Timestamp date;
 
     @OneToMany(mappedBy = "game")
     @JsonIgnore
@@ -44,14 +45,6 @@ public class Game {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 
     public Team getTeam1() {
@@ -84,5 +77,13 @@ public class Game {
 
     public void setPronostics(Set<Pronostic> pronostics) {
         this.pronostics = pronostics;
+    }
+
+    public Timestamp getDate() {
+        return date;
+    }
+
+    public void setDate(Timestamp date) {
+        this.date = date;
     }
 }
