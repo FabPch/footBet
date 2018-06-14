@@ -1,17 +1,16 @@
 package com.yalafoot.bet.controller;
 
-import com.google.gson.Gson;
 import com.yalafoot.bet.constants.AppConstants;
 import com.yalafoot.bet.dto.AuthDTO;
 import com.yalafoot.bet.dto.UserSessionDTO;
+import com.yalafoot.bet.exception.CustomException;
 import com.yalafoot.bet.service.AuthenticationService;
 import com.yalafoot.bet.utils.AppUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -47,7 +46,7 @@ public class AuthenticationController {
 	}
 
 	@GetMapping(produces = "application/json;charset=UTF-8")
-	public String getSession(HttpServletRequest request, HttpServletResponse response) {
+	public UserSessionDTO getSession(HttpServletRequest request, HttpServletResponse response) {
 
 		// Get user from session
 		UserSessionDTO user = (UserSessionDTO) request.getSession().getAttribute(AppConstants.USER_AUTHENT_SESSION);
@@ -57,17 +56,14 @@ public class AuthenticationController {
 
 		// If user is in session return it
 		if(user != null) {
-			response.setStatus(HttpServletResponse.SC_OK);
-			Gson json = new Gson();
-			return json.toJson(user).toString();
+			return user;
 
 		// Else If there is a login cookie (decrypt and return user)
 		} else if(loginCookie != null) {
-			return "";
+			throw new CustomException("Access denied", HttpStatus.FORBIDDEN);
 		// Else error
 		} else {
-			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-			return "";
+			throw new CustomException("Access denied", HttpStatus.FORBIDDEN);
 		}
 	}
 }
