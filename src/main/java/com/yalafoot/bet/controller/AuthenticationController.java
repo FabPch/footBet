@@ -24,18 +24,16 @@ public class AuthenticationController {
 	@Autowired
 	AuthenticationService authenticationService;
 
-	@PostMapping(produces = "application/json;charset=UTF-8")
-	public String authenticate(HttpServletRequest request, HttpServletResponse response, @RequestBody AuthDTO authDTO) {
+	@PostMapping()
+	public void authenticate(HttpServletRequest request, HttpServletResponse response, @RequestBody AuthDTO authDTO) {
 
 		String token = authenticationService.authenticate(request, authDTO.getLogin(), authDTO.getPassword());
 		Cookie cookie = new Cookie(AppConstants.STALINGRAD, token);
 		cookie.setHttpOnly(true);
 		response.addCookie(cookie);
-
-		return "";
 	}
 
-	@DeleteMapping("")
+	@DeleteMapping()
 	public void disconnect(HttpServletRequest request, HttpServletResponse response){
 		HttpSession session = request.getSession(false);
 		if (session != null){

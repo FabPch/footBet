@@ -2,7 +2,9 @@ package com.yalafoot.bet.utils;
 
 import com.yalafoot.bet.constants.AppConstants;
 import com.yalafoot.bet.exception.CustomException;
+import com.yalafoot.bet.model.Pronostic;
 import org.bouncycastle.util.encoders.Hex;
+import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 
 import javax.servlet.http.Cookie;
@@ -11,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Set;
 import java.util.UUID;
 
 public class AppUtils {
@@ -57,5 +60,19 @@ public class AppUtils {
 
     public static String getUuid() {
         return UUID.randomUUID().toString().replace("-", "");
+    }
+
+    public static JSONObject getPronosticsByGameId(Set<Pronostic> pronostics){
+        JSONObject jsonObject = new JSONObject();
+        JSONObject jsonObjectIn = new JSONObject();
+
+        if (pronostics != null){
+            for (Pronostic p : pronostics){
+                jsonObjectIn.put(AppConstants.PRONO_1, p.getProno1());
+                jsonObjectIn.put(AppConstants.PRONO_2, p.getProno2());
+                jsonObject.put(String.valueOf(p.getId()), jsonObjectIn);
+            }
+        }
+        return jsonObject;
     }
 }

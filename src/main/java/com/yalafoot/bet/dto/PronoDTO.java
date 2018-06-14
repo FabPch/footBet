@@ -5,22 +5,11 @@ import javax.validation.constraints.NotNull;
 public class PronoDTO {
 
     @NotNull
-    private int id;
-
-    @NotNull
     private int gameId;
 
     private TeamDTO team1;
 
     private TeamDTO team2;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public int getGameId() {
         return gameId;

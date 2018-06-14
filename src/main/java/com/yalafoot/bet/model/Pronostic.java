@@ -23,6 +23,9 @@ public class Pronostic {
     @NotNull
     private int prono2;
 
+    @Column
+    private int gain;
+
     @ManyToOne
     @JoinColumn(name = "game_id")
 //    @JsonBackReference
@@ -73,4 +76,11 @@ public class Pronostic {
         this.prono2 = prono2;
     }
 
+    public int getGain() {
+        return gain;
+    }
+
+    public void setGain(int gain) {
+        this.gain = gain;
+    }
 }
