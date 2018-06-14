@@ -1,6 +1,7 @@
 package com.yalafoot.bet.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -34,6 +35,7 @@ public class Pronostic {
     @ManyToOne
     @JoinColumn(name = "gambler_id")
 //    @JsonBackReference
+    @JsonIgnore
     private Gambler gambler;
 
     public int getId() {

@@ -4,17 +4,25 @@ import com.yalafoot.bet.constants.AppConstants;
 import com.yalafoot.bet.dto.PronoDTO;
 import com.yalafoot.bet.dto.TeamDTO;
 import com.yalafoot.bet.dto.UserSessionDTO;
+import com.yalafoot.bet.exception.CustomException;
+import com.yalafoot.bet.model.Gambler;
+import com.yalafoot.bet.model.Game;
 import com.yalafoot.bet.model.Pronostic;
+import com.yalafoot.bet.service.AuthenticationService;
 import com.yalafoot.bet.service.GamblerService;
+import com.yalafoot.bet.service.GameService;
 import com.yalafoot.bet.service.PronosticService;
 import com.yalafoot.bet.utils.AppUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Set;
 
 @RequestMapping("/pronostic")
@@ -26,6 +34,12 @@ public class PronosticController {
 
     @Autowired
     private GamblerService gamblerService;
+
+    @Autowired
+    private GameService gameService;
+
+    @Autowired
+    private AuthenticationService authenticationService;
 
     @GetMapping("/test")
     public String getTest(){
@@ -42,8 +56,32 @@ public class PronosticController {
         return jsonObject.toString();
     }
 
-    @PostMapping()
-    public void addPronostic(@RequestBody Pronostic pronostic){
-        pronosticService.save(pronostic);
+    @PostMapping
+    public void addPronostic(HttpServletRequest request, @RequestBody Pronostic pronostic){
+        int gamblerId = authenticationService.getGamblerId(request);
+        Gambler gambler = gamblerService.getOne(gamblerId);
+        Game game = gameService.getOne(pronostic.getGame().getId());
+        boolean checkUnicity = pronosticService.checkUnicity(pronostic, gambler);
+        boolean checkTime = pronosticService.checkTime(game);
+        if (checkUnicity && checkTime){
+            pronostic.setGambler(gambler);
+            pronosticService.save(pronostic);
+        } else {
+            throw new CustomException(AppConstants.TRICHE, HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+    @PutMapping
+    public void updatePronostic(HttpServletRequest request, @RequestBody Pronostic pronostic){
+        int gamblerId = authenticationService.getGamblerId(request);
+        Gambler gambler = gamblerService.getOne(gamblerId);
+        Game game = gameService.getOne(pronostic.getGame().getId());
+        boolean checkTime = pronosticService.checkTime(game);
+        if (checkTime){
+            pronostic.setGambler(gambler);
+            pronosticService.save(pronostic);
+        } else {
+            throw new CustomException(AppConstants.TRICHE, HttpStatus.UNAUTHORIZED);
+        }
     }
 }
