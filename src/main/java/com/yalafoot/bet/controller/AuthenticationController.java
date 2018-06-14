@@ -16,6 +16,7 @@ import java.io.IOException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @RequestMapping("/auth")
 @RestController
@@ -33,6 +34,16 @@ public class AuthenticationController {
 		response.addCookie(cookie);
 
 		return "";
+	}
+
+	@DeleteMapping("")
+	public void disconnect(HttpServletRequest request, HttpServletResponse response){
+		HttpSession session = request.getSession(false);
+		if (session != null){
+			session.invalidate();
+			Cookie[] cookies = request.getCookies();
+			AppUtils.invalidateCookies(response, cookies);
+		}
 	}
 
 	@GetMapping(produces = "application/json;charset=UTF-8")

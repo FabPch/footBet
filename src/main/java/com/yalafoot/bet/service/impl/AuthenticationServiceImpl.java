@@ -10,6 +10,7 @@ import com.yalafoot.bet.service.AuthenticationService;
 import com.yalafoot.bet.utils.AppUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,6 +42,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         } else {
             throw new CustomException("Access denied", HttpStatus.FORBIDDEN);
         }
+    }
+
+
+    public int getGamblerId(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        UserSessionDTO user = (UserSessionDTO) request.getSession().getAttribute(AppConstants.USER_AUTHENT_SESSION);
+        return  user.getId();
     }
 
     //public void getSession()

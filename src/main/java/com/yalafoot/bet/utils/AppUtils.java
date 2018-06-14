@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -26,6 +27,15 @@ public class AppUtils {
             }
         }
         return cookieValue;
+    }
+
+    public static void invalidateCookies(HttpServletResponse response, Cookie[] cookies){
+        for (Cookie cookie : cookies) {
+            cookie.setMaxAge(0);
+            cookie.setValue(null);
+            cookie.setPath("/");
+            response.addCookie(cookie);
+        }
     }
 
     public static String getPassHashed(String pass){

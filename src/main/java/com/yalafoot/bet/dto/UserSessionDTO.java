@@ -1,24 +1,24 @@
 package com.yalafoot.bet.dto;
 
 public class UserSessionDTO {
-    private int identifier;
+    private int id;
     private String login;
     private String name;
 
 
-    public UserSessionDTO(int identifier, String login, String name) {
+    public UserSessionDTO(int id, String login, String name) {
         super();
-        this.identifier = identifier;
+        this.id = id;
         this.login = login;
         this.name = name;
     }
 
-    public String getId() {
-        return this.login;
+    public int getId() {
+        return id;
     }
 
-    public void setId(int identifier) {
-        this.identifier = identifier;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getLogin() {
