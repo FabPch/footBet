@@ -27,8 +27,6 @@ public class AuthenticationController {
 	@PostMapping(produces = "application/json;charset=UTF-8")
 	public String authenticate(HttpServletRequest request, HttpServletResponse response, @RequestBody AuthDTO authDTO) {
 
-		String loginCookie = AppUtils.getCookie(request, AppConstants.STALINGRAD);
-
 		String token = authenticationService.authenticate(request, authDTO.getLogin(), authDTO.getPassword());
 		Cookie cookie = new Cookie(AppConstants.STALINGRAD, token);
 		cookie.setHttpOnly(true);

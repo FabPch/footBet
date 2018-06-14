@@ -24,8 +24,6 @@ public class AppUtils {
                     break;
                 }
             }
-        } else {
-            throw new CustomException("Access denied", HttpStatus.FORBIDDEN);
         }
         return cookieValue;
     }
