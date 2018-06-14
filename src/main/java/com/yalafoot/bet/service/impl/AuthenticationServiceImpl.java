@@ -34,7 +34,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public String authenticate(HttpServletRequest request, String login, String pass) {
         Gambler gambler = gamblerRepository.findByLogin(login);
         String passHash = AppUtils.getPassHashed(pass);
-        if (passHash.equalsIgnoreCase(gambler.getPassword())){
+        if (gambler.getPassword() != null && passHash.equalsIgnoreCase(gambler.getPassword())){
             //return AppUtils.getUuid();
 			request.getSession().setAttribute(AppConstants.USER_AUTHENT_SESSION, new UserSessionDTO(gambler.getId(), gambler.getLogin(), gambler.getName()));
 			request.getSession().setAttribute(AppConstants.GAMBLER_SESSION, gambler);

@@ -70,7 +70,7 @@ public class AppUtils {
             for (Pronostic p : pronostics){
                 jsonObjectIn.put(AppConstants.PRONO_1, p.getProno1());
                 jsonObjectIn.put(AppConstants.PRONO_2, p.getProno2());
-                jsonObject.put(String.valueOf(p.getId()), jsonObjectIn);
+                jsonObject.put(String.valueOf(p.getGame().getId()), jsonObjectIn);
             }
         }
         return jsonObject;
