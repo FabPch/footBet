@@ -24,39 +24,41 @@ public class AuthenticationController {
 	@Autowired
 	AuthenticationService authenticationService;
 
-	@PostMapping()
-	public void authenticate(HttpServletRequest request, HttpServletResponse response, @RequestBody AuthDTO authDTO) {
+	@PostMapping(produces = "application/json;charset=UTF-8")
+	public String authenticate(HttpServletRequest request, HttpServletResponse response, @RequestBody AuthDTO authDTO) {
+
 		String loginCookie = AppUtils.getCookie(request, AppConstants.STALINGRAD);
-		
-		if(loginCookie == null) {
-			String token = authenticationService.authenticate(request, authDTO.getLogin(), authDTO.getPassword());
-			Cookie cookie = new Cookie(AppConstants.STALINGRAD, token);
-			cookie.setHttpOnly(true);
-			response.addCookie(cookie);
-		} else {
-			getSession(request, response);
-		}
+
+		String token = authenticationService.authenticate(request, authDTO.getLogin(), authDTO.getPassword());
+		Cookie cookie = new Cookie(AppConstants.STALINGRAD, token);
+		cookie.setHttpOnly(true);
+		response.addCookie(cookie);
+
+		return "";
 	}
 
-	@GetMapping()
-	public void getSession(HttpServletRequest request, HttpServletResponse response) {
+	@GetMapping(produces = "application/json;charset=UTF-8")
+	public String getSession(HttpServletRequest request, HttpServletResponse response) {
+
+		// Get user from session
+		UserSessionDTO user = (UserSessionDTO) request.getSession().getAttribute(AppConstants.USER_AUTHENT_SESSION);
+
+		// Get login cookie
 		String loginCookie = AppUtils.getCookie(request, AppConstants.STALINGRAD);
-		
-		if(loginCookie == null) {
-			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);			
-		} else {
-			UserSessionDTO user = (UserSessionDTO) request.getSession().getAttribute(AppConstants.USER_AUTHENT_SESSION);
+
+		// If user is in session return it
+		if(user != null) {
 			response.setStatus(HttpServletResponse.SC_OK);
-			try {
-				Gson json = new Gson();
-				response.getWriter().write(json.toJson(user));
-				response.getWriter().flush();
-				response.getWriter().close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
+			Gson json = new Gson();
+			return json.toJson(user).toString();
+
+		// Else If there is a login cookie (decrypt and return user)
+		} else if(loginCookie != null) {
+			return "";
+		// Else error
+		} else {
+			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			return "";
 		}
 	}
 }

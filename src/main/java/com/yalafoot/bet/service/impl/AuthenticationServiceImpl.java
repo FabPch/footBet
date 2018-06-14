@@ -35,7 +35,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         String passHash = AppUtils.getPassHashed(pass);
         if (passHash.equalsIgnoreCase(gambler.getPassword())){
             //return AppUtils.getUuid();
-			request.getSession().setAttribute(AppConstants.USER_AUTHENT_SESSION, new UserSessionDTO(login, gambler.getName()));
+			request.getSession().setAttribute(AppConstants.USER_AUTHENT_SESSION, new UserSessionDTO(gambler.getId(), gambler.getLogin(), gambler.getName()));
 			request.getSession().setAttribute(AppConstants.GAMBLER_SESSION, gambler);
             return JwtTokenProvider.createToken(login, gambler.getId());
         } else {
