@@ -69,7 +69,7 @@ public class AppUtils {
         Map<String, PronoDTO> pronos = new HashMap<>();
         if (pronostics != null){
             for (Pronostic p : pronostics){
-                PronoDTO pronoDTO = new PronoDTO(p.getProno1(), p.getProno2());
+                PronoDTO pronoDTO = new PronoDTO(p.getProno1(), p.getProno2(), p.getGain());
                 pronos.put(String.valueOf(p.getGame().getId()), pronoDTO);
             }
         }

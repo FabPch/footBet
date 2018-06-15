@@ -8,9 +8,12 @@ public class PronoDTO {
 
     private int prono2;
 
-    public PronoDTO(int prono1, int prono2) {
+    private int gain;
+
+    public PronoDTO(int prono1, int prono2, int gain) {
         this.prono1 = prono1;
         this.prono2 = prono2;
+        this.gain = gain;
     }
 
     public int getProno1() {
@@ -27,5 +30,13 @@ public class PronoDTO {
 
     public void setProno2(int prono2) {
         this.prono2 = prono2;
+    }
+
+    public int getGain() {
+        return gain;
+    }
+
+    public void setGain(int gain) {
+        this.gain = gain;
     }
 }
