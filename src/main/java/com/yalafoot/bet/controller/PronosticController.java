@@ -71,12 +71,10 @@ public class PronosticController {
     @PutMapping
     public void updatePronostic(HttpServletRequest request, @RequestBody Pronostic pronostic){
         int gamblerId = authenticationService.getGamblerId(request);
-        Gambler gambler = gamblerService.getOne(gamblerId);
         Game game = gameService.getOne(pronostic.getGame().getId());
         boolean checkTime = pronosticService.checkTime(game);
         if (checkTime){
-            pronostic.setGambler(gambler);
-            pronosticService.save(pronostic);
+            pronosticService.update(pronostic.getProno1(), pronostic.getProno2(), pronostic.getGame().getId(), gamblerId);
         } else {
             throw new CustomException(AppConstants.TRICHE, HttpStatus.UNAUTHORIZED);
         }

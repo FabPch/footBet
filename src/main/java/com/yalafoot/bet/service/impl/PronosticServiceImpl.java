@@ -42,7 +42,8 @@ public class PronosticServiceImpl implements PronosticService {
     }
 
     @Override
-    public void update(Pronostic pronostic) {
+    public void update(int prono1, int prono2, int gameId, int gamblerId) {
+        pronosticRepository.update(prono1, prono2, gameId, gamblerId);
     }
 
     @Override

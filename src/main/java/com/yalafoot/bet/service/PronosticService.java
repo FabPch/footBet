@@ -16,7 +16,7 @@ public interface PronosticService {
 
     public void delete(int id);
 
-    public void update(Pronostic pronostic);
+    public void update(int prono1, int prono2, int gameId, int gamblerId);
 
     public boolean checkUnicity(Pronostic pronostic, Gambler gambler);
 
