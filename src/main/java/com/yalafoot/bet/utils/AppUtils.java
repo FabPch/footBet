@@ -1,6 +1,7 @@
 package com.yalafoot.bet.utils;
 
 import com.yalafoot.bet.constants.AppConstants;
+import com.yalafoot.bet.dto.PronoDTO;
 import com.yalafoot.bet.exception.CustomException;
 import com.yalafoot.bet.model.Pronostic;
 import org.bouncycastle.util.encoders.Hex;
@@ -64,13 +65,11 @@ public class AppUtils {
 
     public static JSONObject getPronosticsByGameId(Set<Pronostic> pronostics){
         JSONObject jsonObject = new JSONObject();
-        JSONObject jsonObjectIn = new JSONObject();
 
         if (pronostics != null){
             for (Pronostic p : pronostics){
-                jsonObjectIn.put(AppConstants.PRONO_1, p.getProno1());
-                jsonObjectIn.put(AppConstants.PRONO_2, p.getProno2());
-                jsonObject.put(String.valueOf(p.getGame().getId()), jsonObjectIn);
+                PronoDTO pronoDTO = new PronoDTO(p.getProno1(), p.getProno2());
+                jsonObject.put(String.valueOf(p.getGame().getId()), pronoDTO);
             }
         }
         return jsonObject;
