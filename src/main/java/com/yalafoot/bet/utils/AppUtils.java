@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -63,15 +65,14 @@ public class AppUtils {
         return UUID.randomUUID().toString().replace("-", "");
     }
 
-    public static JSONObject getPronosticsByGameId(Set<Pronostic> pronostics){
-        JSONObject jsonObject = new JSONObject();
-
+    public static Map getPronosticsByGameId(Set<Pronostic> pronostics){
+        Map<String, PronoDTO> pronos = new HashMap<>();
         if (pronostics != null){
             for (Pronostic p : pronostics){
                 PronoDTO pronoDTO = new PronoDTO(p.getProno1(), p.getProno2());
-                jsonObject.put(String.valueOf(p.getGame().getId()), pronoDTO);
+                pronos.put(String.valueOf(p.getGame().getId()), pronoDTO);
             }
         }
-        return jsonObject;
+        return pronos;
     }
 }

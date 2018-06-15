@@ -13,16 +13,13 @@ import com.yalafoot.bet.service.GamblerService;
 import com.yalafoot.bet.service.GameService;
 import com.yalafoot.bet.service.PronosticService;
 import com.yalafoot.bet.utils.AppUtils;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.sql.Timestamp;
-import java.util.Date;
+import java.util.Map;
 import java.util.Set;
 
 @RequestMapping("/pronostic")
@@ -48,12 +45,12 @@ public class PronosticController {
 
     @CrossOrigin
     @GetMapping(produces = "application/json;charset=UTF-8")
-    public String getPronosticById(HttpServletRequest request){
+    public Map getPronosticById(HttpServletRequest request){
         HttpSession session = request.getSession();
         UserSessionDTO user = (UserSessionDTO) request.getSession().getAttribute(AppConstants.USER_AUTHENT_SESSION);
         Set<Pronostic> pronostics = gamblerService.getOne(user.getId()).getPronostics();
-        JSONObject jsonObject = AppUtils.getPronosticsByGameId(pronostics);
-        return jsonObject.toString();
+        Map<String, PronoDTO> pronos = AppUtils.getPronosticsByGameId(pronostics);
+        return pronos;
     }
 
     @PostMapping
