@@ -1,17 +1,13 @@
 package com.yalafoot.bet.service.impl;
 
-import com.yalafoot.bet.constants.AppConstants;
-import com.yalafoot.bet.exception.CustomException;
 import com.yalafoot.bet.model.Gambler;
 import com.yalafoot.bet.model.Game;
 import com.yalafoot.bet.model.Pronostic;
 import com.yalafoot.bet.repository.PronosticRepository;
 import com.yalafoot.bet.service.PronosticService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -43,7 +39,10 @@ public class PronosticServiceImpl implements PronosticService {
 
     @Override
     public void update(int prono1, int prono2, int gameId, int gamblerId) {
-        pronosticRepository.update(prono1, prono2, gameId, gamblerId);
+        Pronostic currentPronostic = pronosticRepository.getOneByGameIdAndGamblerId(gameId, gamblerId);
+        currentPronostic.setProno1(prono1);
+        currentPronostic.setProno2(prono2);
+        pronosticRepository.save(currentPronostic);
     }
 
     @Override
