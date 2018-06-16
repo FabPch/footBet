@@ -75,4 +75,14 @@ public class AppUtils {
         }
         return pronos;
     }
+
+    public static int getWiningTeam(int goalsHomeTeam, int goalsAwayTeam) {
+        int winningTeam = 0;
+        if(goalsHomeTeam > goalsAwayTeam) {
+            winningTeam = 1;
+        } else if(goalsAwayTeam > goalsHomeTeam) {
+            winningTeam = 2;
+        }
+        return winningTeam;
+    }
 }
