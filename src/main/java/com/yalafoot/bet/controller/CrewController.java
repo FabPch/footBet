@@ -44,11 +44,15 @@ public class CrewController {
         String uuid = AppUtils.getUuid();
         crew.setUid(uuid);
         int gamblerId = authenticationService.getGamblerId(request);
-        Gambler gambler = gamblerService.getOne(gamblerId);
-        Set<Gambler> gamblerSet = new HashSet<Gambler>();
-        gamblerSet.add(gambler);
-        crew.setGamblers(gamblerSet);
-        crewService.save(crew);
+
+        // If gambler's id found
+        if(gamblerId != -1) {
+            Gambler gambler = gamblerService.getOne(gamblerId);
+            Set<Gambler> gamblerSet = new HashSet<Gambler>();
+            crew.setGamblers(gamblerSet);
+            crewService.save(crew);
+            gamblerSet.add(gambler);
+        }
     }
 
     @PutMapping("{id}")

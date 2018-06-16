@@ -56,27 +56,36 @@ public class PronosticController {
     @PostMapping
     public void addPronostic(HttpServletRequest request, @RequestBody Pronostic pronostic){
         int gamblerId = authenticationService.getGamblerId(request);
-        Gambler gambler = gamblerService.getOne(gamblerId);
-        Game game = gameService.getOne(pronostic.getGame().getId());
-        boolean checkUnicity = pronosticService.checkUnicity(pronostic, gambler);
-        boolean checkTime = pronosticService.checkTime(game);
-        if (checkUnicity && checkTime){
-            pronostic.setGambler(gambler);
-            pronosticService.save(pronostic);
-        } else {
-            throw new CustomException(AppConstants.TRICHE, HttpStatus.UNAUTHORIZED);
+        // If gambler's id found
+        if(gamblerId != -1) {
+            Gambler gambler = gamblerService.getOne(gamblerId);
+            Game game = gameService.getOne(pronostic.getGame().getId());
+            boolean checkUnicity = pronosticService.checkUnicity(pronostic, gambler);
+            boolean checkTime = pronosticService.checkTime(game);
+            if (checkUnicity && checkTime){
+                pronostic.setGambler(gambler);
+                pronosticService.save(pronostic);
+            } else {
+                throw new CustomException(AppConstants.TRICHE, HttpStatus.UNAUTHORIZED);
+            }
         }
     }
 
     @PutMapping
     public void updatePronostic(HttpServletRequest request, @RequestBody Pronostic pronostic){
         int gamblerId = authenticationService.getGamblerId(request);
-        Game game = gameService.getOne(pronostic.getGame().getId());
-        boolean checkTime = pronosticService.checkTime(game);
-        if (checkTime){
-            pronosticService.update(pronostic.getProno1(), pronostic.getProno2(), pronostic.getGame().getId(), gamblerId);
+
+        // If gambler's id found
+        if(gamblerId != -1) {
+            Game game = gameService.getOne(pronostic.getGame().getId());
+            boolean checkTime = pronosticService.checkTime(game);
+            if (checkTime){
+                pronosticService.update(pronostic.getProno1(), pronostic.getProno2(), pronostic.getGame().getId(), gamblerId);
+            } else {
+                throw new CustomException(AppConstants.TRICHE, HttpStatus.UNAUTHORIZED);
+            }
         } else {
-            throw new CustomException(AppConstants.TRICHE, HttpStatus.UNAUTHORIZED);
+            throw new CustomException(AppConstants.TRICHE, HttpStatus.FORBIDDEN);
         }
     }
 }

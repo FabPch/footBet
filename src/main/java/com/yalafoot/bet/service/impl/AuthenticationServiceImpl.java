@@ -48,7 +48,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public int getGamblerId(HttpServletRequest request){
         HttpSession session = request.getSession();
         UserSessionDTO user = (UserSessionDTO) session.getAttribute(AppConstants.USER_AUTHENT_SESSION);
-        return (user == null) ? null : user.getId();
+        return (user == null) ? -1 : user.getId();
     }
 
     //public void getSession()
