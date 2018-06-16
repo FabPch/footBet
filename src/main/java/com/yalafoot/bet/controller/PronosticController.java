@@ -48,9 +48,13 @@ public class PronosticController {
     public Map getPronosticById(HttpServletRequest request){
         HttpSession session = request.getSession();
         UserSessionDTO user = (UserSessionDTO) request.getSession().getAttribute(AppConstants.USER_AUTHENT_SESSION);
-        Set<Pronostic> pronostics = gamblerService.getOne(user.getId()).getPronostics();
-        Map<String, PronoDTO> pronos = AppUtils.getPronosticsByGameId(pronostics);
-        return pronos;
+        if(user != null) {
+            Set<Pronostic> pronostics = gamblerService.getOne(user.getId()).getPronostics();
+            Map<String, PronoDTO> pronos = AppUtils.getPronosticsByGameId(pronostics);
+            return pronos;
+        } else {
+            throw new CustomException(AppConstants.TRICHE, HttpStatus.FORBIDDEN);
+        }
     }
 
     @PostMapping
