@@ -31,6 +31,9 @@ public class Gambler {
     @Column
     private byte[] photo;
 
+    @Column
+    private int gain;
+
 //    @ElementCollection(fetch = FetchType.EAGER)
 //    List<Role> roles;
 //
@@ -131,5 +134,13 @@ public class Gambler {
 
     public void setPhoto(byte[] photo) {
         this.photo = photo;
+    }
+
+    public int getGain() {
+        return gain;
+    }
+
+    public void setGain(int gain) {
+        this.gain = gain;
     }
 }

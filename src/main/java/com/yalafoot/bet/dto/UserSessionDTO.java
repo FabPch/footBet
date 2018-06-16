@@ -4,6 +4,7 @@ public class UserSessionDTO {
     private int id;
     private String login;
     private String name;
+    private int gain;
 
 
     public UserSessionDTO(int id, String login, String name) {
@@ -11,6 +12,7 @@ public class UserSessionDTO {
         this.id = id;
         this.login = login;
         this.name = name;
+        this.gain = gain;
     }
 
     public int getId() {
@@ -27,6 +29,14 @@ public class UserSessionDTO {
 
     public void setLogin(String login) {
         this.login = login;
+    }
+
+    public int getGain() {
+        return this.gain;
+    }
+
+    public void setGain(int gain) {
+        this.gain = gain;
     }
 
     public String getName() {
