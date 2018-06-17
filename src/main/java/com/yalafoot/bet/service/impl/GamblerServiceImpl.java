@@ -30,6 +30,10 @@ public class GamblerServiceImpl implements GamblerService {
         return gamblerRepository.findAll();
     }
 
+    public Iterable<Gambler> findAllOrderByGain() {
+        return gamblerRepository.findAllOrderByGain();
+    }
+
     @Override
     public void save(Gambler gambler) {
         String pwd = gambler.getPassword();

@@ -8,6 +8,8 @@ public interface GamblerService {
 
     public Iterable<Gambler> findAll();
 
+    public Iterable<Gambler> findAllOrderByGain();
+
     public void save(Gambler gambler);
 
     public void delete(int id);
