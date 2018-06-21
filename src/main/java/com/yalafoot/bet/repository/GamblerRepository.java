@@ -14,6 +14,6 @@ public interface GamblerRepository extends JpaRepository<Gambler, Integer> {
     @Query("SELECT SUM(p.gain) AS gain FROM Pronostic p WHERE p.gambler.id = ?1")
     public int getGainSum(int gambler_id);
 
-    @Query("SELECT id, md5(login), name, gain  FROM Gambler g ORDER BY g.gain DESC")
+    @Query("SELECT id AS id, md5(login) AS login, name AS name, gain AS gain  FROM Gambler g ORDER BY g.gain DESC")
     public Iterable<Gambler> findAllOrderByGain();
 }
