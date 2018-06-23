@@ -51,5 +51,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return (user == null) ? -1 : user.getId();
     }
 
-    //public void getSession()
+    @Override
+    public void changePass(String login, String pass, String passNew) {
+        Gambler gambler = gamblerRepository.findByLogin(login);
+        String passHash = AppUtils.getPassHashed(pass);
+        if (passNew != null && passHash.equalsIgnoreCase(gambler.getPassword())){
+            String passHashNew = AppUtils.getPassHashed(passNew);
+            gambler.setPassword(passHashNew);
+            gamblerRepository.save(gambler);
+        } else {
+            throw new CustomException("Access denied or null passNew", HttpStatus.FORBIDDEN);
+        }
+    }
 }

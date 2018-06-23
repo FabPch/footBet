@@ -10,4 +10,6 @@ public interface AuthenticationService {
     public String authenticate(HttpServletRequest request, String login, String pass);
 
     public int getGamblerId(HttpServletRequest request);
+
+    public void changePass(String login, String pass, String passNew);
 }
