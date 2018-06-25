@@ -64,4 +64,14 @@ public class AuthenticationController {
 			throw new CustomException("Access denied", HttpStatus.FORBIDDEN);
 		}
 	}
+
+	@PutMapping
+	public void changePass(HttpServletRequest request, @RequestBody AuthDTO authDTO){
+		int gamblerId = authenticationService.getGamblerId(request);
+		if (gamblerId != -1){
+			authenticationService.changePass(authDTO.getLogin(), authDTO.getPassword(), authDTO.getPasswordNew());
+		} else {
+			throw new CustomException("Access denied", HttpStatus.FORBIDDEN);
+		}
+	}
 }

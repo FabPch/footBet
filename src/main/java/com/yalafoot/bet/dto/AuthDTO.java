@@ -10,6 +10,8 @@ public class AuthDTO {
     @NotNull
     private String password;
 
+    private String passwordNew;
+
     public String getLogin() {
         return login;
     }
@@ -24,5 +26,13 @@ public class AuthDTO {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPasswordNew() {
+        return passwordNew;
+    }
+
+    public void setPasswordNew(String passwordNew) {
+        this.passwordNew = passwordNew;
     }
 }
