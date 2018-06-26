@@ -10,6 +10,8 @@ public interface GamblerService {
 
     public Iterable<Gambler> findAllOrderByGain();
 
+    public Iterable<Gambler> findAllSecuredOrderByGain();
+
     public void save(Gambler gambler);
 
     public void delete(int id);

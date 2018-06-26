@@ -32,7 +32,7 @@ public class GamblerController {
         int gamblerId = authenticationService.getGamblerId(request);
         // If gambler's id found
         if(gamblerId != -1) {
-            return gamblerService.findAllOrderByGain();
+            return gamblerService.findAllSecuredOrderByGain();
         } else {
             throw new CustomException(AppConstants.TRICHE, HttpStatus.FORBIDDEN);
         }
