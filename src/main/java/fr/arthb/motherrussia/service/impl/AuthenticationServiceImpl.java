@@ -12,6 +12,9 @@ import fr.arthb.motherrussia.utils.AppUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -25,6 +28,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Autowired
     private JwtTokenProvider JwtTokenProvider;
 
+    private static Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
+    private static String loggerAuthenticate = "authenticate() -> ";
     @Override
     public boolean isAuthenticate(String token) {
         return false;
@@ -32,15 +37,27 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public String authenticate(HttpServletRequest request, String login, String pass) {
+        logger.info(loggerAuthenticate + "login: " + login + "; password: " + pass.replaceAll(".", "*"));
+
         Gambler gambler = gamblerRepository.findByLogin(login);
+
+        if(gambler == null) {
+            logger.error(loggerAuthenticate + "no gambler found");
+            throw new CustomException(AppConstants.NO_USER_FOUND, HttpStatus.FORBIDDEN);
+        } else {
+            logger.info(loggerAuthenticate + "gambler found");
+        }
+
         String passHash = AppUtils.getPassHashed(pass);
         if (gambler.getPassword() != null && passHash.equalsIgnoreCase(gambler.getPassword())){
             //return AppUtils.getUuid();
 			request.getSession().setAttribute(AppConstants.USER_AUTHENT_SESSION, new UserSessionDTO(gambler.getId(), gambler.getLogin(), gambler.getName()));
 			request.getSession().setAttribute(AppConstants.GAMBLER_SESSION, gambler);
-            return JwtTokenProvider.createToken(login, gambler.getId());
+            logger.info(loggerAuthenticate + "passwords match");
+			return JwtTokenProvider.createToken(login, gambler.getId());
         } else {
-            throw new CustomException("Access denied", HttpStatus.FORBIDDEN);
+            logger.error(loggerAuthenticate + "passwords don't match");
+            throw new CustomException(AppConstants.ACCESS_DENIED, HttpStatus.FORBIDDEN);
         }
     }
 

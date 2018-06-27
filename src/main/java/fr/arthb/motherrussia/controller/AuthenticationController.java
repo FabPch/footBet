@@ -7,6 +7,9 @@ import fr.arthb.motherrussia.exception.CustomException;
 import fr.arthb.motherrussia.service.AuthenticationService;
 import fr.arthb.motherrussia.utils.AppUtils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
@@ -24,9 +27,12 @@ public class AuthenticationController {
 	@Autowired
 	AuthenticationService authenticationService;
 
+	private static Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
+
 	@PostMapping()
 	public void authenticate(HttpServletRequest request, HttpServletResponse response, @RequestBody AuthDTO authDTO) {
 
+		logger.info("authenticate() -> login: " + authDTO.getLogin() + "; password: " + authDTO.getPassword().replaceAll(".", "*"));
 		String token = authenticationService.authenticate(request, authDTO.getLogin(), authDTO.getPassword());
 		Cookie cookie = new Cookie(AppConstants.STALINGRAD, token);
 		cookie.setHttpOnly(true);
