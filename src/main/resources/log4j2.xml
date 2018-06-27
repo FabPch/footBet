@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Properties>
+        <Property name="logPath"></Property>
+    </Properties>
+
+    <Appenders>
+        <!-- Console Appender -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout>
+                <pattern>
+                    %d{yyyy-MMM-dd HH:mm:ss a} [%t] %-5level %X{sessionId} %logger{36} - %msg%n
+                </pattern>
+            </PatternLayout>
+        </Console>
+
+        <!-- File Appender -->
+        <File name="FileApp" fileName="${logPath}app.log">
+            <PatternLayout>
+                <pattern>
+                    %d{yyyy-MMM-dd HH:mm:ss a} [%t] %-5level %X{sessionId} %logger{36} - %msg%n
+                </pattern>
+            </PatternLayout>
+        </File>
+        <File name="FileSpringBoot" fileName="${logPath}springboot.log">
+            <PatternLayout>
+                <pattern>
+                    %d{yyyy-MMM-dd HH:mm:ss a} [%t] %-5level %X{sessionId} %logger{36} - %msg%n
+                </pattern>
+            </PatternLayout>
+        </File>
+        <File name="FileSpringCore" fileName="${logPath}springcore.log">
+            <PatternLayout>
+                <pattern>
+                    %d{yyyy-MMM-dd HH:mm:ss a} [%t] %-5level %X{sessionId} %logger{36} - %msg%n
+                </pattern>
+            </PatternLayout>
+        </File>
+
+    </Appenders>
+
+    <Loggers>
+        <!-- Log everything in custom package -->
+        <Logger name="fr.arthb.motherrussia" level="ALL" additivity="false">
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="FileApp" />
+        </Logger>
+
+        <!-- Log everything in Spring Boot -->
+        <Logger name="org.springframework.boot" level="debug" additivity="false">
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="FileSpringBoot" />
+        </Logger>
+
+        <!-- Log everything in Spring Core -->
+        <Logger name="org.springframework.core" level="debug" additivity="false">
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="FileSpringCore" />
+        </Logger>
+
+        <Root level="ALL">
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="FileApp" />
+        </Root>
+
+    </Loggers>
+</Configuration>
