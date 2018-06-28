@@ -32,7 +32,9 @@ public class AuthenticationController {
 	@PostMapping()
 	public void authenticate(HttpServletRequest request, HttpServletResponse response, @RequestBody AuthDTO authDTO) {
 
-		logger.info("authenticate() -> login: " + authDTO.getLogin() + "; password: " + authDTO.getPassword().replaceAll(".", "*"));
+		String loggerMessage = String.format("authenticate() -> login: %s; password: %s", authDTO.getLogin(), authDTO.getPassword().replaceAll("(.)", "*"));
+		logger.info(loggerMessage);
+
 		String token = authenticationService.authenticate(request, authDTO.getLogin(), authDTO.getPassword());
 		Cookie cookie = new Cookie(AppConstants.STALINGRAD, token);
 		cookie.setHttpOnly(true);
@@ -64,10 +66,10 @@ public class AuthenticationController {
 
 		// Else If there is a login cookie (decrypt and return user)
 		} else if(loginCookie != null) {
-			throw new CustomException("Access denied", HttpStatus.FORBIDDEN);
+			throw new CustomException(AppConstants.ACCESS_DENIED, HttpStatus.FORBIDDEN);
 		// Else error
 		} else {
-			throw new CustomException("Access denied", HttpStatus.FORBIDDEN);
+			throw new CustomException(AppConstants.ACCESS_DENIED, HttpStatus.FORBIDDEN);
 		}
 	}
 
@@ -77,7 +79,7 @@ public class AuthenticationController {
 		if (gamblerId != -1){
 			authenticationService.changePass(authDTO.getLogin(), authDTO.getPassword(), authDTO.getPasswordNew());
 		} else {
-			throw new CustomException("Access denied", HttpStatus.FORBIDDEN);
+			throw new CustomException(AppConstants.ACCESS_DENIED, HttpStatus.FORBIDDEN);
 		}
 	}
 }
