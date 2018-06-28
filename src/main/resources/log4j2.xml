@@ -47,13 +47,13 @@
         </Logger>
 
         <!-- Log everything in Spring Boot -->
-        <Logger name="org.springframework.boot" level="debug" additivity="false">
+        <Logger name="org.springframework.boot" level="ERROR" additivity="false">
             <AppenderRef ref="Console" />
             <AppenderRef ref="FileSpringBoot" />
         </Logger>
 
         <!-- Log everything in Spring Core -->
-        <Logger name="org.springframework.core" level="debug" additivity="false">
+        <Logger name="org.springframework.core" level="ERROR" additivity="false">
             <!--<AppenderRef ref="Console" />-->
             <AppenderRef ref="FileSpringCore" />
         </Logger>
