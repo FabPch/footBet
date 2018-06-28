@@ -38,6 +38,7 @@ public class AuthenticationController {
 		String token = authenticationService.authenticate(request, authDTO.getLogin(), authDTO.getPassword());
 		Cookie cookie = new Cookie(AppConstants.STALINGRAD, token);
 		cookie.setHttpOnly(true);
+		cookie.setSecure(true);
 		response.addCookie(cookie);
 	}
 
