@@ -13,8 +13,6 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.springframework.beans.factory.annotation.Value;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,7 +21,7 @@ import java.util.Properties;
 
 public class MailUtils {
 
-    private static String MJ_CLIENT_VERSION = "v3.1";
+    private static String mjClientVersion = "v3.1";
 
     private static String propMjApikeyPublic;
     private static String propMjApikeyPrivate;
@@ -76,7 +74,7 @@ public class MailUtils {
         propMailFromEmail = getPropertyValue("mail.from.email");
         propMailFromName = getPropertyValue("mail.from.name");
 
-        client = new MailjetClient(propMjApikeyPublic, propMjApikeyPrivate, new ClientOptions(MJ_CLIENT_VERSION));
+        client = new MailjetClient(propMjApikeyPublic, propMjApikeyPrivate, new ClientOptions(mjClientVersion));
 
         /**
          *    MESSAGE INPUT JSON
