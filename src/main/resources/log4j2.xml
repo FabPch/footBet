@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration>
     <Properties>
-        <Property name="logPath"></Property>
+        <Property name="logPath">logs/</Property>
     </Properties>
 
     <Appenders>
@@ -15,21 +15,21 @@
         </Console>
 
         <!-- File Appender -->
-        <File name="FileApp" fileName="${logPath}app.log">
+        <File name="FileApp" fileName="${logPath}app.log"><!-- app.log -->
             <PatternLayout>
                 <pattern>
                     %d{yyyy-MMM-dd HH:mm:ss a} [%t] %-5level %X{sessionId} %logger{36} - %msg%n
                 </pattern>
             </PatternLayout>
         </File>
-        <File name="FileSpringBoot" fileName="${logPath}springboot.log">
+        <File name="FileSpringBoot" fileName="${logPath}springboot.log"><!-- springboot.log -->
             <PatternLayout>
                 <pattern>
                     %d{yyyy-MMM-dd HH:mm:ss a} [%t] %-5level %X{sessionId} %logger{36} - %msg%n
                 </pattern>
             </PatternLayout>
         </File>
-        <File name="FileSpringCore" fileName="${logPath}springcore.log">
+        <File name="FileSpringCore" fileName="${logPath}springcore.log"><!-- springcore.log -->
             <PatternLayout>
                 <pattern>
                     %d{yyyy-MMM-dd HH:mm:ss a} [%t] %-5level %X{sessionId} %logger{36} - %msg%n
@@ -42,7 +42,7 @@
     <Loggers>
         <!-- Log everything in custom package -->
         <Logger name="fr.arthb.motherrussia" level="ALL" additivity="false">
-            <AppenderRef ref="Console" />
+            <!--<AppenderRef ref="Console" />-->
             <AppenderRef ref="FileApp" />
         </Logger>
 
@@ -54,13 +54,13 @@
 
         <!-- Log everything in Spring Core -->
         <Logger name="org.springframework.core" level="debug" additivity="false">
-            <AppenderRef ref="Console" />
+            <!--<AppenderRef ref="Console" />-->
             <AppenderRef ref="FileSpringCore" />
         </Logger>
 
-        <Root level="ALL">
-            <AppenderRef ref="Console" />
-            <AppenderRef ref="FileApp" />
+        <Root level="INFO">
+            <!--<AppenderRef ref="Console" />-->
+            <!--<AppenderRef ref="FileApp" />-->
         </Root>
 
     </Loggers>
