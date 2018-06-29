@@ -2,6 +2,10 @@ package fr.arthb.motherrussia.controller;
 
 import fr.arthb.motherrussia.model.Game;
 import fr.arthb.motherrussia.service.GameService;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,9 +16,14 @@ public class GameController {
     @Autowired
     private GameService gameService;
 
-    @GetMapping("/test")
-    public String getTest(){
-        return "yala mon game !";
+    // Logger init
+    private static Logger logger = LoggerFactory.getLogger(GameController.class);
+    private static String LOG_PRFIX_GETLIVEGAMES = "getLiveGames() -> ";
+
+    @GetMapping(path="/live", produces = "application/json;charset=UTF-8")
+    public String getLiveGames(){
+        logger.info(String.format("%s Request", LOG_PRFIX_GETLIVEGAMES));
+        return gameService.getLiveGames().toString();
     }
 
     @CrossOrigin
