@@ -58,9 +58,9 @@
             <AppenderRef ref="FileSpringCore" />
         </Logger>
 
-        <Root level="INFO">
+        <Root level="ERROR">
             <!--<AppenderRef ref="Console" />-->
-            <!--<AppenderRef ref="FileApp" />-->
+            <AppenderRef ref="FileApp" />
         </Root>
 
     </Loggers>
