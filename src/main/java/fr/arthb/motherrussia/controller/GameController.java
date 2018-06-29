@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/game")
@@ -19,6 +20,7 @@ public class GameController {
     // Logger init
     private static Logger logger = LoggerFactory.getLogger(GameController.class);
     private static String LOG_PRFIX_GETLIVEGAMES = "getLiveGames() -> ";
+    private static String LOG_PRFIX_DELETECACHE = "deleteCache() -> ";
 
     @GetMapping(path="/live", produces = "application/json;charset=UTF-8")
     public String getLiveGames(){
@@ -36,4 +38,10 @@ public class GameController {
     public void addGame(@RequestBody Game game){
                 gameService.save(game);
             }
+
+    @DeleteMapping(path="/cache", produces = "application/json;charset=UTF-8")
+    public void deleteCache(){
+        logger.info(String.format("%s Go to service", LOG_PRFIX_DELETECACHE));
+        gameService.deleteCache();
+    }
 }

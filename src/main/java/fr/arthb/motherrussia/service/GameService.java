@@ -16,5 +16,7 @@ public interface GameService {
 
     public void delete(int id);
 
+    public void deleteCache();
+
     public JSONObject getLiveGames();
 }

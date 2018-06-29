@@ -12,6 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
@@ -28,6 +30,8 @@ public class GameServiceImpl implements GameService {
     // Logger init
     private static Logger logger = LoggerFactory.getLogger(GameService.class);
     private static String LOG_PRFIX_GETLIVEGAMES = "getLiveGames() -> ";
+    private static String LOG_PRFIX_GETLIVEGAMESFROMFIFA = "getLiveGamesFromFifa() -> ";
+    private static String LOG_PRFIX_DELETECACHE = "deleteCache() -> ";
 
     @Override
     public Game getOne(int id) {
@@ -35,6 +39,7 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
+    @Cacheable("games")
     public ArrayList<Game> findAll() {
         return (ArrayList<Game>) gameRepository.findAll();
     }
@@ -49,6 +54,12 @@ public class GameServiceImpl implements GameService {
         gameRepository.deleteById(id);
     }
 
+    @CacheEvict(value = { "games", "liveGamesFromFifa" }, allEntries=true, beforeInvocation = true)
+    public void deleteCache() {
+        logger.info(String.format("%s Processing",LOG_PRFIX_DELETECACHE));
+    }
+
+    @Cacheable("games")
     public JSONObject getLiveGames() {
 
         /**
@@ -62,15 +73,9 @@ public class GameServiceImpl implements GameService {
         JSONObject liveGames = new JSONObject();
         logger.info(String.format("%s Init liveGames: %s", LOG_PRFIX_GETLIVEGAMES, liveGames.toString()));
 
-        String idSeason = "254645";
-        String idCompetition = "17";
-        String languageResults = "en-US"; // fr-FR is also avalaible
-        String countResults = "100";
-        String endpoint = String.format("https://api.fifa.com/api/v1/calendar/matches?idseason=%s&idcompetition=%s&language=%s&count=%s", idSeason, idCompetition, languageResults, countResults);
-        logger.info(String.format("%s Prepare endpoint: %s", LOG_PRFIX_GETLIVEGAMES, endpoint));
-        JSONObject jsonResponse = RestUtils.get(endpoint);
+        logger.info(String.format("%s Call FIFA API", LOG_PRFIX_GETLIVEGAMES));
+        JSONObject jsonResponse = this.getLiveGamesFromFifa();
         if(jsonResponse != null) {
-            logger.info(String.format("%s Response: %s", LOG_PRFIX_GETLIVEGAMES, jsonResponse.toString()));
 
             JSONArray games = jsonResponse.getJSONArray("Results");
 
@@ -287,5 +292,20 @@ public class GameServiceImpl implements GameService {
 
 
         return liveGames;
+    }
+
+    @Cacheable("liveGamesFromFifa")
+    public JSONObject getLiveGamesFromFifa() {
+        Date date1 = new Date();
+        String idSeason = "254645";
+        String idCompetition = "17";
+        String languageResults = "en-US"; // fr-FR is also avalaible
+        String countResults = "100";
+        String endpoint = String.format("https://api.fifa.com/api/v1/calendar/matches?idseason=%s&idcompetition=%s&language=%s&count=%s", idSeason, idCompetition, languageResults, countResults);
+        logger.info(String.format("%s Prepare endpoint: %s", LOG_PRFIX_GETLIVEGAMESFROMFIFA, endpoint));
+        JSONObject jsonResponse = RestUtils.get(endpoint);
+        Date date2 = new Date();
+        logger.info(String.format("%s %s ms; Response: %s", LOG_PRFIX_GETLIVEGAMESFROMFIFA, (long) date2.getTime() - date1.getTime(), jsonResponse.toString()));
+        return jsonResponse;
     }
 }
