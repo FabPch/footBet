@@ -56,6 +56,7 @@ INSERT INTO team (id, name) VALUES(766,'Japan');
 INSERT INTO team (id, name) VALUES(794,'Poland');
 INSERT INTO team (id, name) VALUES(804,'Senegal');
 
+# Group matches
 INSERT INTO game (id, team_1, team_2, date) VALUES(165069, 808, 801, '2018-06-14T15:00:00Z');
 INSERT INTO game (id, team_1, team_2, date) VALUES(165084, 825, 758, '2018-06-15T12:00:00Z');
 INSERT INTO game (id, team_1, team_2, date) VALUES(165083, 815, 840, '2018-06-15T15:00:00Z');
@@ -105,14 +106,16 @@ INSERT INTO game (id, team_1, team_2, date) VALUES(165103, 804, 818, '2018-06-28
 INSERT INTO game (id, team_1, team_2, date) VALUES(165110, 1836, 802, '2018-06-28T18:00:00Z');
 INSERT INTO game (id, team_1, team_2, date) VALUES(165105, 770, 805, '2018-06-28T18:00:00Z');
 
-INSERT INTO game (id, team_1, team_2, date) VALUES(165119, '', '', '2018-06-30T14:00:00Z');
-INSERT INTO game (id, team_1, team_2, date) VALUES(165123, '', '', '2018-06-30T18:00:00Z');
-INSERT INTO game (id, team_1, team_2, date) VALUES(165122, '', '', '2018-07-01T14:00:00Z');
-INSERT INTO game (id, team_1, team_2, date) VALUES(165121, '', '', '2018-07-01T18:00:00Z');
-INSERT INTO game (id, team_1, team_2, date) VALUES(165118, '', '', '2018-07-02T14:00:00Z');
-INSERT INTO game (id, team_1, team_2, date) VALUES(165120, '', '', '2018-07-02T18:00:00Z');
-INSERT INTO game (id, team_1, team_2, date) VALUES(165117, '', '', '2018-07-03T14:00:00Z');
-INSERT INTO game (id, team_1, team_2, date) VALUES(165124, '', '', '2018-07-03T18:00:00Z');
+# Matchs 8e
+INSERT INTO game (id, team_1, team_2, date) VALUES(165119, 773, 762, '2018-06-30T14:00:00Z');
+INSERT INTO game (id, team_1, team_2, date) VALUES(165123, 758, 765, '2018-06-30T18:00:00Z');
+INSERT INTO game (id, team_1, team_2, date) VALUES(165122, 760, 808, '2018-07-01T14:00:00Z');
+INSERT INTO game (id, team_1, team_2, date) VALUES(165121, 799, 782, '2018-07-01T18:00:00Z');
+INSERT INTO game (id, team_1, team_2, date) VALUES(165118, 764, 769, '2018-07-02T14:00:00Z');
+INSERT INTO game (id, team_1, team_2, date) VALUES(165120, 805, 766, '2018-07-02T18:00:00Z');
+INSERT INTO game (id, team_1, team_2, date) VALUES(165117, 792, 788, '2018-07-03T14:00:00Z');
+INSERT INTO game (id, team_1, team_2, date) VALUES(165124, 818, 766, '2018-07-03T18:00:00Z');
+
 INSERT INTO game (id, team_1, team_2, date) VALUES(165127, '', '', '2018-07-06T14:00:00Z');
 INSERT INTO game (id, team_1, team_2, date) VALUES(165126, '', '', '2018-07-06T18:00:00Z');
 INSERT INTO game (id, team_1, team_2, date) VALUES(165125, '', '', '2018-07-07T14:00:00Z');
