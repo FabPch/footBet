@@ -1,10 +1,7 @@
 package fr.arthb.motherrussia.service.impl;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import com.google.gson.JsonObject;
 import com.mailjet.client.errors.MailjetException;
 import com.mailjet.client.errors.MailjetSocketTimeoutException;
-import fr.arthb.motherrussia.controller.GamblerController;
 import fr.arthb.motherrussia.exception.CustomException;
 import fr.arthb.motherrussia.model.Gambler;
 import fr.arthb.motherrussia.repository.GamblerRepository;
