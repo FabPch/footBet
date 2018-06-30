@@ -12,6 +12,8 @@ import fr.arthb.motherrussia.service.GamblerService;
 import fr.arthb.motherrussia.service.GameService;
 import fr.arthb.motherrussia.service.PronosticService;
 import fr.arthb.motherrussia.utils.AppUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +38,9 @@ public class PronosticController {
 
     @Autowired
     private AuthenticationService authenticationService;
+
+    private static Logger logger = LoggerFactory.getLogger(PronosticController.class);
+    private static String LOG_PRFIX_UPDATEPRONOSTIC = "updatePronostic() -> ";
 
     @GetMapping("/test")
     public String getTest(){
@@ -76,18 +81,26 @@ public class PronosticController {
 
     @PutMapping
     public void updatePronostic(HttpServletRequest request, @RequestBody Pronostic pronostic){
+        logger.info(String.format("%sUpdate pronostic", LOG_PRFIX_UPDATEPRONOSTIC));
+
         int gamblerId = authenticationService.getGamblerId(request);
 
         // If gambler's id found
         if(gamblerId != -1) {
+            logger.info(String.format("%sCurrent gambler: %s", LOG_PRFIX_UPDATEPRONOSTIC, gamblerId));
+
+            logger.info(String.format("%sGet game: gameService.getOne(%s)", LOG_PRFIX_UPDATEPRONOSTIC, pronostic.getGame().getId()));
             Game game = gameService.getOne(pronostic.getGame().getId());
             boolean checkTime = pronosticService.checkTime(game);
             if (checkTime){
+                logger.info(String.format("%sOn time, pronostic can be updated; checkTime: %s", LOG_PRFIX_UPDATEPRONOSTIC, checkTime));
                 pronosticService.update(pronostic.getProno1(), pronostic.getProno2(), pronostic.getGame().getId(), gamblerId);
             } else {
+                logger.error(String.format("%sToo late, pronostic can't be updated; checkTime: %s", LOG_PRFIX_UPDATEPRONOSTIC, checkTime));
                 throw new CustomException(AppConstants.TRICHE, HttpStatus.UNAUTHORIZED);
             }
         } else {
+            logger.error(String.format("%sNo current gambler found", LOG_PRFIX_UPDATEPRONOSTIC));
             throw new CustomException(AppConstants.TRICHE, HttpStatus.FORBIDDEN);
         }
     }

@@ -5,6 +5,8 @@ import fr.arthb.motherrussia.model.Game;
 import fr.arthb.motherrussia.model.Pronostic;
 import fr.arthb.motherrussia.repository.PronosticRepository;
 import fr.arthb.motherrussia.service.PronosticService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,10 @@ public class PronosticServiceImpl implements PronosticService {
 
     @Autowired
     private PronosticRepository pronosticRepository;
+
+    // Logger init
+    private static Logger logger = LoggerFactory.getLogger(PronosticService.class);
+    private static String LOG_PRFIX_UPDATE = "update() -> ";
 
     @Override
     public Pronostic getOne(int id) {
@@ -39,10 +45,18 @@ public class PronosticServiceImpl implements PronosticService {
 
     @Override
     public void update(int prono1, int prono2, int gameId, int gamblerId) {
+        logger.info(String.format("%sFind pronostic: pronosticRepository.getOneByGameIdAndGamblerId(%s, %s)", LOG_PRFIX_UPDATE, gameId, gamblerId));
         Pronostic currentPronostic = pronosticRepository.getOneByGameIdAndGamblerId(gameId, gamblerId);
-        currentPronostic.setProno1(prono1);
-        currentPronostic.setProno2(prono2);
-        pronosticRepository.save(currentPronostic);
+        if(currentPronostic != null) {
+            logger.info(String.format("%sPronostic found - id: %s; gamblerId: %s; pronostic: %s", LOG_PRFIX_UPDATE, currentPronostic.getId(), currentPronostic.getGambler().getId(), currentPronostic));
+            logger.info(String.format("%sSet prono1: %s -> %s; prono2: %s -> %s", LOG_PRFIX_UPDATE, currentPronostic.getProno1(), prono1, currentPronostic.getProno2(), prono2));
+            currentPronostic.setProno1(prono1);
+            currentPronostic.setProno2(prono2);
+            pronosticRepository.save(currentPronostic);
+            logger.info(String.format("%sSaved pronostic", LOG_PRFIX_UPDATE));
+        } else {
+            logger.error(String.format("%sNo pronostic found", LOG_PRFIX_UPDATE));
+        }
     }
 
     @Override
