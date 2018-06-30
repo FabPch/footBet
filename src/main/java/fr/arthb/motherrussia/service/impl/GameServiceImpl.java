@@ -172,6 +172,7 @@ public class GameServiceImpl implements GameService {
                 String stadiumCity = "";
 
                 int officialityStatus = 0;
+                int winnerTeam = 0;
                 String status = "TIMED";
 
                 String matchDay = "null";
@@ -191,10 +192,11 @@ public class GameServiceImpl implements GameService {
                     stadiumCity = currentGame.getJSONObject("Stadium").getJSONArray("CityName").getJSONObject(0).getString("Description");
 
                     officialityStatus = currentGame.getInt("OfficialityStatus");
-                    if(officialityStatus == 1) {
-                        status = "IN_PLAY";
-                    } else if(officialityStatus == 2) {
+                    winnerTeam = currentGame.getInt("Winner");
+                    if(officialityStatus == 2 || winnerTeam != 0) {
                         status = "FINISHED";
+                    } else if(officialityStatus == 1) {
+                        status = "IN_PLAY";
                     } else {
                         status = "TIMED";
                     }
