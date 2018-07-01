@@ -4,6 +4,7 @@ import fr.arthb.motherrussia.model.Game;
 import fr.arthb.motherrussia.repository.GameRepository;
 import fr.arthb.motherrussia.service.GameService;
 import fr.arthb.motherrussia.utils.RestUtils;
+import org.apache.tomcat.jni.Error;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -172,7 +173,7 @@ public class GameServiceImpl implements GameService {
                 String stadiumCity = "";
 
                 int officialityStatus = 0;
-                int winnerTeam = 0;
+                String winnerTeam = "null";
                 String status = "TIMED";
 
                 String matchDay = "null";
@@ -192,8 +193,8 @@ public class GameServiceImpl implements GameService {
                     stadiumCity = currentGame.getJSONObject("Stadium").getJSONArray("CityName").getJSONObject(0).getString("Description");
 
                     officialityStatus = currentGame.getInt("OfficialityStatus");
-                    winnerTeam = currentGame.getInt("Winner");
-                    if(officialityStatus == 2 || winnerTeam != 0) {
+                    winnerTeam = String.valueOf(currentGame.get("Winner"));
+                    if(officialityStatus == 2 || winnerTeam != "null") {
                         status = "FINISHED";
                     } else if(officialityStatus == 1) {
                         status = "IN_PLAY";
@@ -261,7 +262,7 @@ public class GameServiceImpl implements GameService {
 
 
                 } catch (JSONException e) {
-
+                    logger.error(e.toString());
                 }
 
                 String finalStrJson = String.format(
