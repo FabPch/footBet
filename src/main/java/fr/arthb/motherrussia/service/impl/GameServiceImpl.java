@@ -4,7 +4,6 @@ import fr.arthb.motherrussia.model.Game;
 import fr.arthb.motherrussia.repository.GameRepository;
 import fr.arthb.motherrussia.service.GameService;
 import fr.arthb.motherrussia.utils.RestUtils;
-import org.apache.tomcat.jni.Error;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
