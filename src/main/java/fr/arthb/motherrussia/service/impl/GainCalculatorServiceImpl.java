@@ -66,7 +66,7 @@ public class GainCalculatorServiceImpl implements GainCalculatorService {
             logger.info(String.format("%sgameRepository.getGameIdByProcessedAndTimePlus90Min(%s)", LOG_PREFIX_GETGAMEID, actuellePlusUneHeure));
             return gameRepository.getGameIdByProcessedAndTimePlus90Min(actuellePlusUneHeure);
         } catch (Exception e) {
-            logger.error(String.format("%sNo game if found for getGameIdByProcessedAndTimePlus90Min(%s)", LOG_PREFIX_GETGAMEID, actuellePlusUneHeure));
+            logger.warn(String.format("%sNo game found for getGameIdByProcessedAndTimePlus90Min(%s)", LOG_PREFIX_GETGAMEID, actuellePlusUneHeure));
             return 0;    
         }
          

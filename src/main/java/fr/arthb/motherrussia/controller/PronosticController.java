@@ -77,18 +77,17 @@ public class PronosticController {
             boolean checkTime = pronosticService.checkTime(game);
             if (checkUnicity && checkTime){
                 logger.info(String.format(
-                    "%sPronostic can be created; pronosticGameId: %s; prono: %s-%s; gamblerId: %s",
-                    LOG_PRFIX_UPDATEPRONOSTIC,
+                    "%sPronostic can be created; pronosticGameId: %s; prono: %s-%s",//; gamblerId: %s",
+                    LOG_PRFIX_ADDPRONOSTIC,
                     pronostic.getGame().getId(),
                     pronostic.getProno1(),
-                    pronostic.getProno2(),
-                    pronostic.getGambler().getId()
+                    pronostic.getProno2()
                 ));
                 pronostic.setGambler(gambler);
                 pronosticService.save(pronostic);
                 logger.info(String.format("%sPronostic created", LOG_PRFIX_ADDPRONOSTIC));
             } else {
-                logger.error(String.format("%sToo late or pronostic already exists, pronostic can't be created; checkTime: %s", LOG_PRFIX_UPDATEPRONOSTIC, checkTime));
+                logger.error(String.format("%sToo late or pronostic already exists, pronostic can't be created; checkTime: %s", LOG_PRFIX_ADDPRONOSTIC, checkTime));
                 throw new CustomException(AppConstants.TRICHE, HttpStatus.UNAUTHORIZED);
             }
         } else {
