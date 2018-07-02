@@ -17,14 +17,23 @@ public class Pronostic {
 
     @Column
     @NotNull
-    private int prono1;
+    private Integer prono1;
 
     @Column
     @NotNull
-    private int prono2;
+    private Integer prono2;
 
     @Column
-    private int gain;
+    private Integer prono1p;
+
+    @Column
+    private Integer prono2p;
+
+    @Column
+    private Integer winner;
+
+    @Column
+    private Integer gain;
 
     @ManyToOne
     @JoinColumn(name = "game_id")
@@ -61,27 +70,51 @@ public class Pronostic {
         this.gambler = gambler;
     }
 
-    public int getProno1() {
+    public Integer getProno1() {
         return prono1;
     }
 
-    public void setProno1(int prono1) {
+    public void setProno1(Integer prono1) {
         this.prono1 = prono1;
     }
 
-    public int getProno2() {
+    public Integer getProno2() {
         return prono2;
     }
 
-    public void setProno2(int prono2) {
+    public void setProno2(Integer prono2) {
         this.prono2 = prono2;
     }
 
-    public int getGain() {
+    public Integer getProno1p() {
+        return prono1p;
+    }
+
+    public void setProno1p(Integer prono1p) {
+        this.prono1p = prono1p;
+    }
+
+    public Integer getProno2p() {
+        return prono2p;
+    }
+
+    public void setProno2p(Integer prono2p) {
+        this.prono2p = prono2p;
+    }
+
+    public Integer getWinner() {
+        return winner;
+    }
+
+    public void setWinner(Integer winner) {
+        this.winner = winner;
+    }
+
+    public Integer getGain() {
         return gain;
     }
 
-    public void setGain(int gain) {
+    public void setGain(Integer gain) {
         this.gain = gain;
     }
 }

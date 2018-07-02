@@ -38,6 +38,9 @@ public class Game {
     @JsonIgnore
     private Set<Pronostic> pronostics;
 
+    @Column
+    private int processed;
+
     public int getId() {
         return id;
     }
@@ -84,5 +87,13 @@ public class Game {
 
     public void setDate(Timestamp date) {
         this.date = date;
+    }
+
+    public int getProcessed() {
+        return processed;
+    }
+
+    public void setProcessed(int processed) {
+        this.processed = processed;
     }
 }
