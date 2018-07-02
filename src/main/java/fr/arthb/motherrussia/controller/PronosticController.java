@@ -41,6 +41,7 @@ public class PronosticController {
 
     private static Logger logger = LoggerFactory.getLogger(PronosticController.class);
     private static String LOG_PRFIX_UPDATEPRONOSTIC = "updatePronostic() -> ";
+    private static String LOG_PRFIX_ADDPRONOSTIC = "addPronostic() -> ";
 
     @GetMapping("/test")
     public String getTest(){
@@ -63,19 +64,35 @@ public class PronosticController {
 
     @PostMapping
     public void addPronostic(HttpServletRequest request, @RequestBody Pronostic pronostic){
+        logger.info(String.format("%sAdd pronostic", LOG_PRFIX_ADDPRONOSTIC));
         int gamblerId = authenticationService.getGamblerId(request);
+
         // If gambler's id found
         if(gamblerId != -1) {
+            logger.info(String.format("%sgamblerId: %s", LOG_PRFIX_ADDPRONOSTIC, gamblerId));
+
             Gambler gambler = gamblerService.getOne(gamblerId);
             Game game = gameService.getOne(pronostic.getGame().getId());
             boolean checkUnicity = pronosticService.checkUnicity(pronostic, gambler);
             boolean checkTime = pronosticService.checkTime(game);
             if (checkUnicity && checkTime){
+                logger.info(String.format(
+                    "%sPronostic can be created; pronosticGameId: %s; prono: %s-%s; gamblerId: %s",
+                    LOG_PRFIX_UPDATEPRONOSTIC,
+                    pronostic.getGame().getId(),
+                    pronostic.getProno1(),
+                    pronostic.getProno2(),
+                    pronostic.getGambler().getId()
+                ));
                 pronostic.setGambler(gambler);
                 pronosticService.save(pronostic);
+                logger.info(String.format("%sPronostic created", LOG_PRFIX_ADDPRONOSTIC));
             } else {
+                logger.error(String.format("%sToo late or pronostic already exists, pronostic can't be created; checkTime: %s", LOG_PRFIX_UPDATEPRONOSTIC, checkTime));
                 throw new CustomException(AppConstants.TRICHE, HttpStatus.UNAUTHORIZED);
             }
+        } else {
+            logger.error(String.format("%sNo gambler found - gamblerId: %s", LOG_PRFIX_ADDPRONOSTIC, gamblerId));
         }
     }
 
