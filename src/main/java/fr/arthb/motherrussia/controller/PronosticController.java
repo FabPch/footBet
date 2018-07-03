@@ -84,6 +84,7 @@ public class PronosticController {
                     pronostic.getProno2()
                 ));
                 pronostic.setGambler(gambler);
+                pronostic.setGain(0); // init gain to 0
                 pronosticService.save(pronostic);
                 logger.info(String.format("%sPronostic created", LOG_PRFIX_ADDPRONOSTIC));
             } else {
