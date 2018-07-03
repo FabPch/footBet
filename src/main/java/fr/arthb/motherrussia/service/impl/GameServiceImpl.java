@@ -59,7 +59,7 @@ public class GameServiceImpl implements GameService {
         logger.info(String.format("%s Processing",LOG_PRFIX_DELETECACHE));
     }
 
-    @Cacheable("games")
+    @Cacheable(value = "games")
     public JSONObject getLiveGames() {
 
         /**
@@ -191,18 +191,28 @@ public class GameServiceImpl implements GameService {
                     stadium = currentGame.getJSONObject("Stadium").getJSONArray("Name").getJSONObject(0).getString("Description");
                     stadiumCity = currentGame.getJSONObject("Stadium").getJSONArray("CityName").getJSONObject(0).getString("Description");
 
+                    number = currentGame.get("MatchNumber").toString();
+                    matchDay = currentGame.get("MatchDay").toString();
+
+                    DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+                    format.setTimeZone(TimeZone.getTimeZone("GMT"));
+                    Date matchDate = null;
+                    try {
+                        matchDate = format.parse(date);
+                    } catch (ParseException e) {
+                        logger.error(String.format("%s Tried to parse date: %s", LOG_PRFIX_GETLIVEGAMES, date));
+                    }
+                    Date dateNow = new Date();
+
                     officialityStatus = currentGame.getInt("OfficialityStatus");
                     winnerTeam = String.valueOf(currentGame.get("Winner"));
                     if(officialityStatus == 2 || winnerTeam != "null") {
                         status = "FINISHED";
-                    } else if(officialityStatus == 1) {
+                    } else if(officialityStatus == 1 || (matchDate != null && matchDate.before(dateNow))) {
                         status = "IN_PLAY";
                     } else {
                         status = "TIMED";
                     }
-
-                    number = currentGame.get("MatchNumber").toString();
-                    matchDay = currentGame.get("MatchDay").toString();
 
                     JSONObject homeTeam = currentGame.getJSONObject("Home");
                     JSONObject awayTeam = currentGame.getJSONObject("Away");
@@ -239,7 +249,6 @@ public class GameServiceImpl implements GameService {
                     for(int j=0; j<((ArrayList) dbGames).size(); j++) {
 
                         try {
-                            DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
                             format.setTimeZone(TimeZone.getTimeZone("GMT"));
                             Date newDate = format.parse(date);
                             Date gettedDate = new Date(dbGames.get(j).getDate().getTime());
@@ -296,14 +305,15 @@ public class GameServiceImpl implements GameService {
         return liveGames;
     }
 
-    @Cacheable("liveGamesFromFifa")
+    @Cacheable(value = "liveGamesFromFifa")
     public JSONObject getLiveGamesFromFifa() {
         Date date1 = new Date();
         String idSeason = "254645";
         String idCompetition = "17";
         String languageResults = "en-US"; // fr-FR is also avalaible
         String countResults = "100";
-        String endpoint = String.format("https://api.fifa.com/api/v1/calendar/matches?idseason=%s&idcompetition=%s&language=%s&count=%s", idSeason, idCompetition, languageResults, countResults);
+        String ts = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+        String endpoint = String.format("https://api.fifa.com/api/v1/calendar/matches?idseason=%s&idcompetition=%s&language=%s&count=%s&ts=%s", idSeason, idCompetition, languageResults, countResults, ts);
         logger.info(String.format("%s Prepare endpoint: %s", LOG_PRFIX_GETLIVEGAMESFROMFIFA, endpoint));
         JSONObject jsonResponse = RestUtils.get(endpoint);
         Date date2 = new Date();
